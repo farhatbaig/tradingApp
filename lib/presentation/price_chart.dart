@@ -11,13 +11,15 @@ class BigPriceChart extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<TradingBloc, TradingState>(
       builder: (context, state) {
-        final aggregatedPrices = context.read<TradingBloc>().getAggregatedPriceHistory();
-
-        if (aggregatedPrices.isEmpty) {
-          return const SizedBox.shrink(
-            
-          );
+        if (state is! Loaded || state.symbols.isEmpty || state.prices.isEmpty) {
+          return const SizedBox.shrink();
         }
+
+        final latestSymbol = state.symbols.first.symbol; 
+        final latestPrice = state.prices[latestSymbol]?.price ?? 0.0;
+
+        final priceHistory = context.read<TradingBloc>().getRecentPrices(latestSymbol);
+
 
         return Card(
           color: Colors.grey[100],
@@ -30,6 +32,58 @@ class BigPriceChart extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        CircleAvatar(
+                          backgroundColor: Colors.teal[100],
+                          child: Text(
+                            latestSymbol.substring(0, 1),
+                            style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              latestSymbol,
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              'USD', 
+                              style: TextStyle(
+                                color: Colors.grey[600],
+                                fontSize: 12,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                          '\$${latestPrice.toStringAsFixed(2)}',
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      
+                      ],
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
                 const Text(
                   'Market Trend',
                   style: TextStyle(
@@ -40,7 +94,7 @@ class BigPriceChart extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
                 SizedBox(
-                  height: 150, 
+                  height: 150,
                   child: LineChart(
                     LineChartData(
                       gridData: const FlGridData(show: false),
@@ -48,18 +102,18 @@ class BigPriceChart extends StatelessWidget {
                       borderData: FlBorderData(show: false),
                       lineBarsData: [
                         LineChartBarData(
-                          spots: aggregatedPrices
+                          spots: priceHistory
                               .asMap()
                               .entries
                               .map((entry) => FlSpot(entry.key.toDouble(), entry.value))
                               .toList(),
                           isCurved: true,
-                          color: Colors.teal, 
-                          barWidth: 1.5, 
+                          color: Colors.teal,
+                          barWidth: 1.5,
                           belowBarData: BarAreaData(
-                            show: false, 
+                            show: false,
                           ),
-                          dotData: const FlDotData(show: false), 
+                          dotData: const FlDotData(show: false),
                         ),
                       ],
                     ),

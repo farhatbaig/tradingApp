@@ -1,4 +1,3 @@
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trading_app/application/trading_bloc/trading_bloc.dart';
@@ -12,10 +11,13 @@ class TradingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white10, 
+      backgroundColor: Colors.white10,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        title: const Text('Trading Instruments' , style: TextStyle(color: Colors.black),),
+        title: const Text(
+          'Trading Instruments',
+          style: TextStyle(color: Colors.black),
+        ),
         centerTitle: true,
         elevation: 0,
       ),
@@ -26,11 +28,14 @@ class TradingScreen extends StatelessWidget {
             child: BlocBuilder<TradingBloc, TradingState>(
               builder: (context, state) {
                 if (state is Loading) {
-                  return  Center(
-                    child: Container(
+                  return const Center(
+                    child: SizedBox(
                         width: 70,
                         height: 70,
-                      child: CircularProgressIndicator(color: Colors.teal , strokeWidth: 2,)),
+                        child: CircularProgressIndicator(
+                          color: Colors.teal,
+                          strokeWidth: 2,
+                        )),
                   );
                 } else if (state is Error) {
                   return Center(
@@ -44,7 +49,8 @@ class TradingScreen extends StatelessWidget {
                   final prices = state.prices;
 
                   return ListView.builder(
-                    padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
                     itemCount: symbols.length,
                     itemBuilder: (context, index) {
                       final symbol = symbols[index];
@@ -53,7 +59,9 @@ class TradingScreen extends StatelessWidget {
                           ? prices[symbols[index - 1].symbol]?.price ?? price
                           : price;
                       final priceChange = price - previousPrice;
-                      final recentPrices = context.read<TradingBloc>().getRecentPrices(symbol.symbol);
+                      final recentPrices = context
+                          .read<TradingBloc>()
+                          .getRecentPrices(symbol.symbol);
 
                       return TradingCard(
                         symbol: symbol.symbol,
@@ -74,5 +82,3 @@ class TradingScreen extends StatelessWidget {
     );
   }
 }
-
-

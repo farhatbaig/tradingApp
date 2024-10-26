@@ -24,7 +24,8 @@ class TradingBloc extends Bloc<TradingEvent, TradingState> {
     on<ConnectWebSocket>(_onConnectWebSocket);
   }
 
-  Future<void> _onFetchSymbols(FetchSymbols event, Emitter<TradingState> emit) async {
+  Future<void> _onFetchSymbols(
+      FetchSymbols event, Emitter<TradingState> emit) async {
     emit(const TradingState.loading());
 
     final failureOrSuccess = await symbolRepository.getSymbolData();
@@ -41,7 +42,8 @@ class TradingBloc extends Bloc<TradingEvent, TradingState> {
     );
   }
 
-  Future<void> _onConnectWebSocket(ConnectWebSocket event, Emitter<TradingState> emit) async {
+  Future<void> _onConnectWebSocket(
+      ConnectWebSocket event, Emitter<TradingState> emit) async {
     final symbols = event.symbols;
     final config = Config();
     _channel = WebSocketChannel.connect(
@@ -49,7 +51,8 @@ class TradingBloc extends Bloc<TradingEvent, TradingState> {
     );
 
     for (final symbol in symbols) {
-      _channel?.sink.add(json.encode({'type': 'subscribe', 'symbol': symbol.symbol}));
+      _channel?.sink
+          .add(json.encode({'type': 'subscribe', 'symbol': symbol.symbol}));
     }
 
     _channel?.stream.listen(
@@ -72,12 +75,14 @@ class TradingBloc extends Bloc<TradingEvent, TradingState> {
     );
   }
 
-  Future<void> _onUpdatePrice(UpdatePrice event, Emitter<TradingState> emit) async {
+  Future<void> _onUpdatePrice(
+      UpdatePrice event, Emitter<TradingState> emit) async {
     if (state is Loaded) {
       final loadedState = state as Loaded;
       final updatedPrices = Map<String, Price>.from(loadedState.prices);
 
-      updatedPrices[event.symbol] = Price(symbol: event.symbol, price: event.price);
+      updatedPrices[event.symbol] =
+          Price(symbol: event.symbol, price: event.price);
 
       _recentPrices.putIfAbsent(event.symbol, () => []);
       _recentPrices[event.symbol]!.add(event.price);
@@ -90,7 +95,7 @@ class TradingBloc extends Bloc<TradingEvent, TradingState> {
     }
   }
 
-    List<double> getAggregatedPriceHistory() {
+  List<double> getAggregatedPriceHistory() {
     final aggregatedPrices = <double>[];
 
     if (_recentPrices.isEmpty) return aggregatedPrices;
@@ -98,6 +103,7 @@ class TradingBloc extends Bloc<TradingEvent, TradingState> {
     final historyLength = _recentPrices.values.first.length;
 
     for (int i = 0; i < historyLength; i++) {
+      
       double sum = 0;
       int count = 0;
 
@@ -109,7 +115,7 @@ class TradingBloc extends Bloc<TradingEvent, TradingState> {
       }
 
       if (count > 0) {
-        aggregatedPrices.add(sum / count); 
+        aggregatedPrices.add(sum / count);
       }
     }
 
