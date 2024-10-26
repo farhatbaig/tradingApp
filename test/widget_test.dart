@@ -1,30 +1,35 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
+import 'package:mockito/mockito.dart';
 import 'package:trading_app/main.dart';
+import 'package:trading_app/domain/symbol/entities/symbol.dart';
+import 'package:dartz/dartz.dart';
+import 'mocks.mocks.dart'; 
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const TradingApp());
+  group('TradingApp Widget Tests', () {
+    late MockSymbolRepository mockSymbolRepository;
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    setUp(() {
+      mockSymbolRepository = MockSymbolRepository();
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+      when(mockSymbolRepository.getSymbolData())
+          .thenAnswer((_) async => const Right([
+                SymbolData(symbol: 'BTCUSD', ),
+                SymbolData(symbol: 'ETHUSD', ),
+              ]));
+    });
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    testWidgets('Displays initial data correctly', (WidgetTester tester) async {
+      await tester.pumpWidget(
+        TradingApp(symbolRepository: mockSymbolRepository),
+      );
+
+      await tester.pumpAndSettle();
+
+      expect(find.text('Market Trend'), findsOneWidget);
+
+      expect(find.byType(Card), findsWidgets);
+    });
   });
 }

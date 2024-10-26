@@ -10,25 +10,27 @@ import 'package:trading_app/config.dart';
 import 'package:trading_app/presentation/trading_screen.dart';
 
 void main() {
-  runApp(const TradingApp());
+  final config = Config();
+  final symbolRemoteDataSource = SymbolRemoteDataSource(
+    httpService: HttpService(config: config, interceptors: []), 
+    exceptionHandler: DataSourceExceptionHandler(), 
+    config: config,
+  );
+  final symbolRepository = SymbolRepository(
+    symbolRemoteDataSource: symbolRemoteDataSource,
+    config: config,
+  );
+
+  runApp(TradingApp(symbolRepository: symbolRepository));
 }
 
 class TradingApp extends StatelessWidget {
-  const TradingApp({super.key});
+  final SymbolRepository symbolRepository;
+
+  const TradingApp({super.key, required this.symbolRepository});
 
   @override
   Widget build(BuildContext context) {
-    final config = Config();
-    final symbolRemoteDataSource = SymbolRemoteDataSource(
-      httpService: HttpService(config: config, interceptors: []), 
-      exceptionHandler: DataSourceExceptionHandler(), 
-      config: config,
-    );
-    final symbolRepository = SymbolRepository(
-      symbolRemoteDataSource: symbolRemoteDataSource,
-      config: config,
-    );
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: BlocProvider(
