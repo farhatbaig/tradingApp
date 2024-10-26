@@ -4,8 +4,9 @@ This Trading App provides a platform to view real-time trading data, market tren
 
 ## CI/CD Status
 
-![CI/CD Status](https://farhatbaig.github.io/tradingApp/)  
-Continuous Integration and Deployment (CI/CD) are set up to ensure quality and streamline deployment.
+Continuous Integration and Deployment (CI/CD) are set up to below link ensure quality and streamline deployment.
+https://farhatbaig.github.io/tradingApp/
+
 
 ## Project Structure
 
@@ -58,24 +59,24 @@ To run the app on an iPhone emulator or an Android device, follow these steps:
 #### iPhone Emulator
 1. Ensure Xcode is installed and set up on your Mac.
 2. Open an iOS simulator:
-```bash
-open -a Simulator
-```
-```bash
-flutter run -d ios
-```
+    ```bash
+    open -a Simulator
+    ```
+    ```bash
+    flutter run -d ios
+    ```
 
 #### Android Real Device
 1. Enable Developer Options and USB Debugging on your Android device.
 2. Connect the device to your computer via USB.
 3. Verify the device connection:
 
-```bash
-flutter devices
-```
-```bash
-flutter run -d <device-id>
-```
+    ```bash
+    flutter devices
+    ```
+    ```bash
+    flutter run -d <device-id>
+    ```
 
 ## Key Code Patterns
 
