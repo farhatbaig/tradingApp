@@ -58,9 +58,9 @@ To run the app on an iPhone emulator or an Android device, follow these steps:
 #### iPhone Emulator
 1. Ensure Xcode is installed and set up on your Mac.
 2. Open an iOS simulator:
-   ```bash
-   open -a Simulator
-
+```bash
+open -a Simulator
+```
 ```bash
 flutter run -d ios
 ```
