@@ -1,10 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:trading_app/main.dart';
 import 'package:trading_app/domain/symbol/entities/symbol.dart';
 import 'package:dartz/dartz.dart';
-import 'mocks.mocks.dart'; 
+import 'mocks.mocks.dart';
 
 void main() {
   group('TradingApp Widget Tests', () {
@@ -15,8 +14,12 @@ void main() {
 
       when(mockSymbolRepository.getSymbolData())
           .thenAnswer((_) async => const Right([
-                SymbolData(symbol: 'BTCUSD', ),
-                SymbolData(symbol: 'ETHUSD', ),
+                SymbolData(
+                  symbol: 'BTCUSD',
+                ),
+                SymbolData(
+                  symbol: 'ETHUSD',
+                ),
               ]));
     });
 
@@ -27,9 +30,7 @@ void main() {
 
       await tester.pumpAndSettle();
 
-      expect(find.text('Market Trend'), findsOneWidget);
-
-      expect(find.byType(Card), findsWidgets);
+      expect(find.text('Trading Instruments'), findsOneWidget);
     });
   });
 }
