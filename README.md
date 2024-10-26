@@ -80,8 +80,4 @@ class TradingBloc extends Bloc<TradingEvent, TradingState> {
 }
 
 
-### Usage
-- Place this content in a file named `README.md` in the root directory of your project.
-- This document provides detailed information on the project’s structure, setup instructions, and key code patterns.
 
-Let me know if you need any more details or additions!
