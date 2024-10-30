@@ -11,9 +11,9 @@ class TradingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white10,
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.white,
         title: const Text(
           'Trading Instruments',
           style: TextStyle(color: Colors.black),

@@ -61,7 +61,7 @@ class TradingBloc extends Bloc<TradingEvent, TradingState> {
         if (data['type'] == 'trade') {
           for (final tradeData in data['data']) {
             final symbol = tradeData['s'];
-            final price = tradeData['p'];
+final price = (tradeData['p'] as num).toDouble();
             add(TradingEvent.updatePrice(symbol, price));
           }
         }

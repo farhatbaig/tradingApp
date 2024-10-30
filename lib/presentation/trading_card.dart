@@ -25,9 +25,9 @@ class TradingCard extends StatelessWidget {
         border: Border.all(color: Colors.grey),
         borderRadius: BorderRadius.circular(10),
       ),
-      margin: const EdgeInsets.symmetric(vertical: 6, horizontal: 10),
+      margin: const EdgeInsets.symmetric(vertical: 6, horizontal: 0),
       child: Padding(
-        padding: const EdgeInsets.all(15.0),
+        padding: const EdgeInsets.all(10.0),
         child: Row(
           children: [
             Column(
@@ -37,7 +37,7 @@ class TradingCard extends StatelessWidget {
                   symbol,
                   style: const TextStyle(
                     color: Colors.black,
-                    fontSize: 16,
+                    fontSize: 14,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -53,7 +53,7 @@ class TradingCard extends StatelessWidget {
             ),
             const Spacer(),
             SizedBox(
-              width: 100,
+              width: 80,
               height: 50,
               child: LineChart(
                 LineChartData(
@@ -83,7 +83,7 @@ class TradingCard extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(width: 16),
+            const SizedBox(width: 10),
             Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
@@ -91,7 +91,7 @@ class TradingCard extends StatelessWidget {
                   '\$${price.toStringAsFixed(2)}',
                   style: const TextStyle(
                     color: Colors.black,
-                    fontSize: 16,
+                    fontSize: 12,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -101,14 +101,14 @@ class TradingCard extends StatelessWidget {
                     Icon(
                       isPriceUp ? Icons.arrow_upward : Icons.arrow_downward,
                       color: isPriceUp ? Colors.teal : Colors.redAccent,
-                      size: 16,
+                      size: 14,
                     ),
                     Text(
                       '${priceChange.toStringAsFixed(2)}%',
                       style: TextStyle(
                         color:
                             isPriceUp ? Colors.teal : Colors.redAccent,
-                        fontSize: 14,
+                        fontSize: 12,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
